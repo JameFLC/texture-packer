@@ -3,7 +3,7 @@
   "name": "Texture Packer",
   "short_name": "TexPacker",
   "description": "A simple tool to pack multiple channels into one image.",
-  "start_url": "/",
+  "start_url": "./",
   "background_color": "#ffffff",
   "orientation": "any",
   "display": "standalone",
