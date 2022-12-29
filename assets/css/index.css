@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Gridular-Regular";
-  src: url("/assets/fonts/Gridular-Regular.woff2") format("woff2"),
-    url("/assets/fonts/Gridular-Regular.woff") format("woff");
+  src: url("../fonts/Gridular-Regular.woff2") format("woff2"),
+    url("../fonts/Gridular-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
