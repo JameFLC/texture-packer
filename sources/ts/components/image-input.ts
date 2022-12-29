@@ -48,7 +48,7 @@ class ImageInput extends HTMLElement {
                 <input id="image-input" type="file" name="" accept="image/*" class="hidden">
                 <label for="image-input" title="Image file input. Drop an image or click here.">
                   <p class="image-description">Drop an image or click here !</p>
-                  <img id="display-image"src="./assets/images/transparent-pixel.png" alt="">
+                  <img id="display-image" class="display-image" src="./assets/images/transparent-pixel.png" alt="">
                 </label>
                 <canvas id="storage-canvas" class="hidden"></canvas>
             </div>
@@ -96,7 +96,9 @@ class ImageInput extends HTMLElement {
         this.updateCanvas(displayImage);
       };
       displayImage.src = reader.result as string;
-      console.log(this.channelName + "  channel image is ", files[0], " ");
+      this.dispatchEvent(
+        new CustomEvent("image-loaded", { detail: { image: displayImage } })
+      );
     };
   }
 
@@ -126,6 +128,9 @@ class ImageInput extends HTMLElement {
     return this.shadowRoot?.getElementById(
       "storage-canvas"
     ) as HTMLCanvasElement;
+  }
+  getImage(): HTMLImageElement {
+    return this.shadowRoot?.getElementById("display-image") as HTMLImageElement;
   }
 }
 

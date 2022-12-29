@@ -27,17 +27,48 @@
 
     <section>
         <div class="input-gridd">
-            <image-input channel-name="Red"></image-input>
-            <image-input channel-name="Green"></image-input>
-            <image-input channel-name="Blue"></image-input>
-            <image-input channel-name="Alpha"></image-input>
+            <image-input id="red-input" channel-name="Red"></image-input>
+            <image-input id="green-input" channel-name="Green"></image-input>
+            <image-input id="blue-input" channel-name="Blue"></image-input>
+            <image-input id="alpha-input" channel-name="Alpha"></image-input>
         </div>
         <div class="spacer"></div>
         <div>
-            <image-packer></image-packer>
+            <image-packer id="image-packer"></image-packer>
         </div>
     </section>
 </body>
+<script>
+    // Image Inputs
+    const redInput = document.getElementById("red-input");
+    const greenInput = document.getElementById("green-input");
+    const blueInput = document.getElementById("blue-input");
+    const alphaInput = document.getElementById("alpha-input");
+
+    // Image Packer
+    const imagePacker = document.getElementById("image-packer");
+
+    redInput.addEventListener("image-loaded", (event) => {
+        const loadedImage = event.detail.image;
+        imagePacker.redImage = loadedImage;
+    })
+
+    greenInput.addEventListener("image-loaded", (event) => {
+        const loadedImage = event.detail.image;
+        imagePacker.greenImage = loadedImage;
+    })
+
+    blueInput.addEventListener("image-loaded", (event) => {
+        const loadedImage = event.detail.image;
+        imagePacker.blueImage = loadedImage;
+    })
+
+    alphaInput.addEventListener("image-loaded", (event) => {
+        const loadedImage = event.detail.image;
+        imagePacker.alphaImage = loadedImage;
+    })
+</script>
+
 <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js', { scope: '/texture-packer/' });

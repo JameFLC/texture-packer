@@ -149,7 +149,8 @@ section {
   text-align: center;
 }
 
-.image-input-box > label > img {
+.image-input-box > label > img,
+.image-box-container > .image-display-box > img {
   display: block;
 
   height: 100%;
