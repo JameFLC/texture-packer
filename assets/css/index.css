@@ -55,6 +55,15 @@ body[theme="light"] {
     background-color var(--transition-duration) var(--transition-function);
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    --col-100: #111111;
+    --col-200: #1b1b1b;
+    --col-300: #252525;
+    --col-900: #e7e7e7;
+  }
+}
+
 body[theme="dark"] {
   --col-100: #111111;
   --col-200: #1b1b1b;
@@ -89,6 +98,13 @@ section {
   height: var(--size-normal);
 }
 
+.spacer-extend {
+  display: block;
+  width: var(--size-normal);
+  height: var(--size-normal);
+  margin: auto;
+}
+
 .image-box-container {
   display: inline-block;
   background-color: var(--col-200);
@@ -119,6 +135,7 @@ section {
   height: var(--size-image);
   width: var(--size-image);
 }
+
 .image-display-box {
   height: calc(2 * var(--size-image) - var(--size-normal));
   width: calc(2 * var(--size-image) - var(--size-normal));
@@ -128,10 +145,13 @@ section {
   display: block;
   height: 100%;
   width: 100%;
+  position: relative;
+  text-align: center;
 }
 
 .image-input-box > label > img {
   display: block;
+
   height: 100%;
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -158,6 +178,19 @@ button:focus,
   text-align: center;
   margin: var(--size-small) 0 var(--size-small);
   padding: 0;
+}
+
+.image-description {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity var(--transition-duration) var(--transition-function);
+}
+
+.image-input-box > label:hover > .image-description,
+.image-input-box > input:focus + label > .image-description {
+  opacity: 1;
 }
 
 button,
