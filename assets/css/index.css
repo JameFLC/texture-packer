@@ -170,7 +170,6 @@ button:focus,
 .radio-input:focus + .radio-label,
 .input-group:focus-within,
 .radio-label:hover {
-  border-radius: var(--size-normal);
   outline: var(--col-900) solid var(--size-tiny);
   outline-offset: calc(-1 * var(--size-tiny));
 }
