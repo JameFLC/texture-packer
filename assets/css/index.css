@@ -1,0 +1,252 @@
+@font-face {
+  font-family: "Gridular-Regular";
+  src: url("/assets/fonts/Gridular-Regular.woff2") format("woff2"),
+    url("/assets/fonts/Gridular-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --size-tiniest: 0.125rem;
+  --size-tiny: 0.25rem;
+  --size-small: 0.5rem;
+  --size-normal: 1rem;
+  --size-big: 2rem;
+
+  --size-image: max(min(35vh, 18vw), 28vmin);
+
+  --transition-duration: 0.1s;
+  --transition-function: ease-in-out;
+}
+
+html,
+body,
+button {
+  color: var(--col-900);
+  background-color: var(--col-100);
+  font-family: Gridular-Regular, Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  font-size: max(0.5em, 1.5vmin);
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  margin: 0;
+}
+
+img {
+  object-fit: fill;
+}
+
+body,
+body[theme="light"] {
+  --col-100: #ffffff;
+  --col-200: #f5f5f5;
+  --col-300: #dddddd;
+  --col-900: #000000;
+  transition: color var(--transition-duration) var(--transition-function),
+    background-color var(--transition-duration) var(--transition-function);
+}
+
+body[theme="dark"] {
+  --col-100: #111111;
+  --col-200: #1b1b1b;
+  --col-300: #252525;
+  --col-900: #e7e7e7;
+}
+
+section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.top-bar {
+  display: flex;
+  padding: var(--size-small) var(--size-big);
+  align-items: center;
+  margin-bottom: var(--size-big);
+}
+
+.hidden,
+.radio-input {
+  position: fixed;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spacer {
+  display: block;
+  width: var(--size-normal);
+  height: var(--size-normal);
+}
+
+.image-box-container {
+  display: inline-block;
+  background-color: var(--col-200);
+  padding: var(--size-normal) var(--size-normal) 0 var(--size-normal);
+  margin: 0em;
+  border-radius: var(--size-big);
+}
+
+.input-gridd {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: var(--size-normal);
+}
+
+.image-input-box,
+.image-display-box {
+  display: block;
+  height: var(--size-image);
+  width: var(--size-image);
+  background-color: var(--col-300);
+  border-radius: var(--size-normal);
+  text-align: center;
+  overflow: hidden;
+  outline: 0 solid black;
+}
+
+.image-input-box {
+  height: var(--size-image);
+  width: var(--size-image);
+}
+.image-display-box {
+  height: calc(2 * var(--size-image) - var(--size-normal));
+  width: calc(2 * var(--size-image) - var(--size-normal));
+}
+
+.image-input-box > label {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.image-input-box > label > img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  border-radius: var(--size-normal);
+  outline: var(--col-900) solid 0px;
+  outline-offset: 0px;
+  transition: outline var(--transition-duration) var(--transition-function),
+    outline-offset var(--transition-duration) var(--transition-function);
+}
+
+.image-input-box > label:hover > img,
+.image-input-box > input:focus + label > img,
+button:hover,
+button:focus,
+.radio-input:focus + .radio-label,
+.input-group:focus-within,
+.radio-label:hover {
+  outline: var(--col-900) solid var(--size-tiny);
+  outline-offset: calc(-1 * var(--size-tiny));
+}
+
+.image-box-container > h2 {
+  text-align: center;
+  margin: var(--size-small) 0 var(--size-small);
+  padding: 0;
+}
+
+button,
+.radio-label {
+  display: inline-block;
+  padding: var(--size-small) var(--size-normal);
+  font-size: 1.5em;
+  margin: 0;
+  border: none; /* <-- Important to reset the default border */
+  outline: 0em solid var(--col-900);
+  color: var(--col-900);
+  background-color: var(--col-100);
+  border-radius: var(--size-normal);
+  cursor: pointer;
+  transition: outline var(--transition-duration) var(--transition-function),
+    outline-offset var(--transition-duration) var(--transition-function),
+    color var(--transition-duration) var(--transition-function),
+    background-color var(--transition-duration) var(--transition-function);
+}
+
+button:active,
+.radio-input:checked + .radio-label {
+  color: var(--col-100);
+  background-color: var(--col-900);
+}
+
+button:disabled {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--col-300) 0,
+    var(--col-300) 7px,
+    transparent 0,
+    transparent 50%
+  );
+  background-size: 26px 26px;
+  background-color: var(--col-100);
+  outline: var(--size-tiny) solid var(--col-300);
+  outline-offset: calc(-1 * var(--size-tiny));
+  cursor: not-allowed;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  outline: var(--col-900) solid 0px;
+  outline-offset: calc(1 * var(--size-tiny));
+  border-radius: var(--size-normal);
+  transition: outline var(--transition-duration) var(--transition-function),
+    outline-offset var(--transition-duration) var(--transition-function);
+}
+
+.input-group:focus-within {
+  outline: var(--col-900) solid var(--size-tiny);
+  outline-offset: calc(1 * var(--size-tiny));
+}
+
+.input-group > button,
+.input-group > .radio-label {
+  flex: 1 1 0;
+  border-radius: 0;
+  margin: 0 var(--size-tiniest) 0 var(--size-tiniest);
+}
+
+.input-group > button:first-of-type,
+.input-group > .radio-label:first-of-type {
+  border-radius: var(--size-normal) 0 0 var(--size-normal);
+}
+
+.input-group > button:last-of-type,
+.input-group > .radio-label:last-of-type {
+  border-radius: 0 var(--size-normal) var(--size-normal) 0;
+}
+
+.radio-label {
+  padding-left: var(--size-small);
+  padding-right: var(--size-small);
+  text-align: center;
+}
+
+.no-transitions,
+.no-transitions *,
+.no-transitions button .no-transitions .radio-label {
+  --transition-duration: 0s;
+  --transition-function: linear;
+}
+
+@media (prefers-reduced-motion) {
+  :root {
+    --transition-duration: 0s;
+    --transition-function: linear;
+  }
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A tool to pack texture channels into one image">
+    <script src="./assets/js/image-input.js" defer></script>
+    <script src="./assets/js/image-packer.js" defer></script>
+    <script src="./assets/js/index.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="./assets/images/j.svg">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <title>Texture Packer</title>
+</head>
+
+<body id="body">
+    <nav class="top-bar">
+        <h1>Texture Packer</h1>
+        <div class="spacer"></div>
+        <button onclick="swappTheme()">Swapp Theme</button>
+    </nav>
+
+    <section>
+        <div class="input-gridd">
+            <image-input channel-name="Red"></image-input>
+            <image-input channel-name="Green"></image-input>
+            <image-input channel-name="Blue"></image-input>
+            <image-input channel-name="Alpha"></image-input>
+        </div>
+        <div class="spacer"></div>
+        <div>
+            <image-packer></image-packer>
+        </div>
+    </section>
+</body>
+
+</html>
