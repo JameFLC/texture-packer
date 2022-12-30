@@ -144,7 +144,7 @@ class ImagePacker extends HTMLElement {
         }
         if (btnDownload != null) {
             btnDownload.addEventListener("click", () => {
-                return;
+                this.downloadImage();
             });
         }
     }
@@ -224,9 +224,29 @@ class ImagePacker extends HTMLElement {
         var _a;
         const displayImage = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("display-image");
         displayImage.src = canvas.toDataURL("image/png");
+        this.setupDownloadButton();
+    }
+    setupDownloadButton() {
+        var _a, _b;
+        const resultImage = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("display-image");
+        if (resultImage == null)
+            return;
+        const btnDownload = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById("btn-download");
+        btnDownload.disabled = false;
+    }
+    downloadImage() {
+        var _a, _b;
+        const resultImage = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("display-image");
+        if (resultImage == null)
+            return;
+        const btnDownload = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById("btn-download");
+        if (btnDownload == null || btnDownload.disabled == true)
+            return;
+        const link = document.createElement("a"); //create 'a' element
+        link.setAttribute("href", resultImage.src); //replace "file" with link to file you want to download
+        link.setAttribute("download", "img.png"); // replace "file" here too
+        link.click(); //virtually click <a> element to initiate download
+        link.remove();
     }
 }
 customElements.define("image-packer", ImagePacker);
-function applyGrayScale(resultCanvas) {
-    throw new Error("Function not implemented.");
-}

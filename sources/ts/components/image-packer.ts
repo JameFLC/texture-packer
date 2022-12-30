@@ -118,7 +118,7 @@ class ImagePacker extends HTMLElement {
     }
     if (btnDownload != null) {
       btnDownload.addEventListener("click", () => {
-        return;
+        this.downloadImage();
       });
     }
   }
@@ -307,9 +307,39 @@ class ImagePacker extends HTMLElement {
     ) as HTMLImageElement;
 
     displayImage.src = canvas.toDataURL("image/png");
+    this.setupDownloadButton();
+  }
+
+  setupDownloadButton() {
+    const resultImage = this.shadowRoot?.getElementById(
+      "display-image"
+    ) as HTMLImageElement;
+    if (resultImage == null) return;
+
+    const btnDownload = this.shadowRoot?.getElementById(
+      "btn-download"
+    ) as HTMLButtonElement;
+
+    btnDownload.disabled = false;
+  }
+
+  downloadImage() {
+    const resultImage = this.shadowRoot?.getElementById(
+      "display-image"
+    ) as HTMLImageElement;
+    if (resultImage == null) return;
+
+    const btnDownload = this.shadowRoot?.getElementById(
+      "btn-download"
+    ) as HTMLButtonElement;
+
+    if (btnDownload == null || btnDownload.disabled == true) return;
+
+    const link = document.createElement("a"); //create 'a' element
+    link.setAttribute("href", resultImage.src); //replace "file" with link to file you want to download
+    link.setAttribute("download", "img.png"); // replace "file" here too
+    link.click(); //virtually click <a> element to initiate download
+    link.remove();
   }
 }
 customElements.define("image-packer", ImagePacker);
-function applyGrayScale(resultCanvas: any) {
-  throw new Error("Function not implemented.");
-}
