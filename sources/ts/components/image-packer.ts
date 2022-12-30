@@ -1,8 +1,11 @@
 class ImagePacker extends HTMLElement {
   // Properties
 
+  private _hasBeenPacked: boolean = false;
+  private _displayMode: string = "color";
   // Red Channel Image
   private _redImage = new Image();
+  private _outputFormat = "png";
   public get redImage() {
     return this._redImage;
   }
@@ -121,6 +124,87 @@ class ImagePacker extends HTMLElement {
         this.downloadImage();
       });
     }
+    this.setupChannelMode();
+    this.setupImageExport();
+  }
+
+  setupChannelMode() {
+    const colModeSelector = this.shadowRoot?.getElementById(
+      "rad-col"
+    ) as HTMLInputElement;
+    const redModeSelector = this.shadowRoot?.getElementById(
+      "rad-red"
+    ) as HTMLInputElement;
+    const greenModeSelector = this.shadowRoot?.getElementById(
+      "rad-green"
+    ) as HTMLInputElement;
+    const blueModeSelector = this.shadowRoot?.getElementById(
+      "rad-blue"
+    ) as HTMLInputElement;
+    const alphaModeSelector = this.shadowRoot?.getElementById(
+      "rad-alpha"
+    ) as HTMLInputElement;
+
+    colModeSelector.addEventListener("change", (event) => {
+      if (colModeSelector.checked == true) {
+        this.changeDisplayMode("color");
+      }
+    });
+
+    redModeSelector.addEventListener("change", (event) => {
+      if (redModeSelector.checked == true) {
+        this.changeDisplayMode("red");
+      }
+    });
+
+    greenModeSelector.addEventListener("change", (event) => {
+      if (greenModeSelector.checked == true) {
+        this.changeDisplayMode("green");
+      }
+    });
+
+    blueModeSelector.addEventListener("change", (event) => {
+      if (blueModeSelector.checked == true) {
+        this.changeDisplayMode("blue");
+      }
+    });
+
+    alphaModeSelector.addEventListener("change", (event) => {
+      if (alphaModeSelector.checked == true) {
+        this.changeDisplayMode("alpha");
+      }
+    });
+  }
+
+  setupImageExport() {
+    const pngOutputSelector = this.shadowRoot?.getElementById(
+      "rad-png"
+    ) as HTMLInputElement;
+
+    const bmpOutputSelector = this.shadowRoot?.getElementById(
+      "rad-bmp"
+    ) as HTMLInputElement;
+
+    const jpgOutputSelector = this.shadowRoot?.getElementById(
+      "rad-jpg"
+    ) as HTMLInputElement;
+    pngOutputSelector.addEventListener("change", (event) => {
+      if (pngOutputSelector.checked == true) {
+        this._outputFormat = "png";
+      }
+    });
+
+    bmpOutputSelector.addEventListener("change", (event) => {
+      if (bmpOutputSelector.checked == true) {
+        this._outputFormat = "bmp";
+      }
+    });
+
+    jpgOutputSelector.addEventListener("change", (event) => {
+      if (jpgOutputSelector.checked == true) {
+        this._outputFormat = "jpg";
+      }
+    });
   }
 
   onPackTextureClicked = () => {
@@ -180,6 +264,7 @@ class ImagePacker extends HTMLElement {
       images[biggestImageIndex].naturalWidth,
       images[biggestImageIndex].naturalHeight
     );
+
     // Unifor each canvas color channels
     this.applyGrayScale(redChannelCanvas);
     this.applyGrayScale(greenChannelCanvas);
@@ -250,7 +335,8 @@ class ImagePacker extends HTMLElement {
     if (resultcanvasContext == null || resultImage == null) return;
 
     resultcanvasContext.putImageData(resultImage, 0, 0);
-    this.setDisplayImage(resultCanvas);
+    this._hasBeenPacked = true;
+    this.changeDisplayMode(this._displayMode);
   }
 
   getBiggestImageIndex(images: HTMLImageElement[]) {
@@ -337,9 +423,51 @@ class ImagePacker extends HTMLElement {
 
     const link = document.createElement("a"); //create 'a' element
     link.setAttribute("href", resultImage.src); //replace "file" with link to file you want to download
-    link.setAttribute("download", "img.png"); // replace "file" here too
+    link.setAttribute("download", `img.${this._outputFormat}`); // replace "file" here too
     link.click(); //virtually click <a> element to initiate download
     link.remove();
+  }
+
+  changeDisplayMode(mode: string) {
+    this._displayMode = mode;
+
+    if (this.shadowRoot == null || this._hasBeenPacked == false) return;
+    const resultChannelCanvas = this.shadowRoot.getElementById(
+      "result-channel-canvas"
+    ) as HTMLCanvasElement;
+    const redChannelCanvas = this.shadowRoot.getElementById(
+      "red-channel-canvas"
+    ) as HTMLCanvasElement;
+    const greenChannelCanvas = this.shadowRoot.getElementById(
+      "green-channel-canvas"
+    ) as HTMLCanvasElement;
+    const blueChannelCanvas = this.shadowRoot.getElementById(
+      "blue-channel-canvas"
+    ) as HTMLCanvasElement;
+    const alphaChannelCanvas = this.shadowRoot.getElementById(
+      "alpha-channel-canvas"
+    ) as HTMLCanvasElement;
+
+    switch (this._displayMode) {
+      case "color":
+        this.setDisplayImage(resultChannelCanvas);
+        break;
+      case "red":
+        this.setDisplayImage(redChannelCanvas);
+        break;
+      case "green":
+        this.setDisplayImage(greenChannelCanvas);
+        break;
+      case "blue":
+        this.setDisplayImage(blueChannelCanvas);
+        break;
+      case "alpha":
+        this.setDisplayImage(alphaChannelCanvas);
+        break;
+      default:
+        this.setDisplayImage(resultChannelCanvas);
+        break;
+    }
   }
 }
 customElements.define("image-packer", ImagePacker);

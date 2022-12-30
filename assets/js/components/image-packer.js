@@ -31,8 +31,11 @@ class ImagePacker extends HTMLElement {
     constructor() {
         super();
         // Properties
+        this._hasBeenPacked = false;
+        this._displayMode = "color";
         // Red Channel Image
         this._redImage = new Image();
+        this._outputFormat = "png";
         // Green Channel Image
         this._greenImage = new Image();
         // Blue Channel Image
@@ -147,6 +150,62 @@ class ImagePacker extends HTMLElement {
                 this.downloadImage();
             });
         }
+        this.setupChannelMode();
+        this.setupImageExport();
+    }
+    setupChannelMode() {
+        var _a, _b, _c, _d, _e;
+        const colModeSelector = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("rad-col");
+        const redModeSelector = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById("rad-red");
+        const greenModeSelector = (_c = this.shadowRoot) === null || _c === void 0 ? void 0 : _c.getElementById("rad-green");
+        const blueModeSelector = (_d = this.shadowRoot) === null || _d === void 0 ? void 0 : _d.getElementById("rad-blue");
+        const alphaModeSelector = (_e = this.shadowRoot) === null || _e === void 0 ? void 0 : _e.getElementById("rad-alpha");
+        colModeSelector.addEventListener("change", (event) => {
+            if (colModeSelector.checked == true) {
+                this.changeDisplayMode("color");
+            }
+        });
+        redModeSelector.addEventListener("change", (event) => {
+            if (redModeSelector.checked == true) {
+                this.changeDisplayMode("red");
+            }
+        });
+        greenModeSelector.addEventListener("change", (event) => {
+            if (greenModeSelector.checked == true) {
+                this.changeDisplayMode("green");
+            }
+        });
+        blueModeSelector.addEventListener("change", (event) => {
+            if (blueModeSelector.checked == true) {
+                this.changeDisplayMode("blue");
+            }
+        });
+        alphaModeSelector.addEventListener("change", (event) => {
+            if (alphaModeSelector.checked == true) {
+                this.changeDisplayMode("alpha");
+            }
+        });
+    }
+    setupImageExport() {
+        var _a, _b, _c;
+        const pngOutputSelector = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("rad-png");
+        const bmpOutputSelector = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById("rad-bmp");
+        const jpgOutputSelector = (_c = this.shadowRoot) === null || _c === void 0 ? void 0 : _c.getElementById("rad-jpg");
+        pngOutputSelector.addEventListener("change", (event) => {
+            if (pngOutputSelector.checked == true) {
+                this._outputFormat = "png";
+            }
+        });
+        bmpOutputSelector.addEventListener("change", (event) => {
+            if (bmpOutputSelector.checked == true) {
+                this._outputFormat = "bmp";
+            }
+        });
+        jpgOutputSelector.addEventListener("change", (event) => {
+            if (jpgOutputSelector.checked == true) {
+                this._outputFormat = "jpg";
+            }
+        });
     }
     packChannels(resultCanvas, redCanvas, greenCanvas, blueCanvas, alphaCanvas) {
         var _a, _b, _c, _d, _e;
@@ -180,7 +239,8 @@ class ImagePacker extends HTMLElement {
         if (resultcanvasContext == null || resultImage == null)
             return;
         resultcanvasContext.putImageData(resultImage, 0, 0);
-        this.setDisplayImage(resultCanvas);
+        this._hasBeenPacked = true;
+        this.changeDisplayMode(this._displayMode);
     }
     getBiggestImageIndex(images) {
         let biggestImage = 0;
@@ -244,9 +304,39 @@ class ImagePacker extends HTMLElement {
             return;
         const link = document.createElement("a"); //create 'a' element
         link.setAttribute("href", resultImage.src); //replace "file" with link to file you want to download
-        link.setAttribute("download", "img.png"); // replace "file" here too
+        link.setAttribute("download", `img.${this._outputFormat}`); // replace "file" here too
         link.click(); //virtually click <a> element to initiate download
         link.remove();
+    }
+    changeDisplayMode(mode) {
+        this._displayMode = mode;
+        if (this.shadowRoot == null || this._hasBeenPacked == false)
+            return;
+        const resultChannelCanvas = this.shadowRoot.getElementById("result-channel-canvas");
+        const redChannelCanvas = this.shadowRoot.getElementById("red-channel-canvas");
+        const greenChannelCanvas = this.shadowRoot.getElementById("green-channel-canvas");
+        const blueChannelCanvas = this.shadowRoot.getElementById("blue-channel-canvas");
+        const alphaChannelCanvas = this.shadowRoot.getElementById("alpha-channel-canvas");
+        switch (this._displayMode) {
+            case "color":
+                this.setDisplayImage(resultChannelCanvas);
+                break;
+            case "red":
+                this.setDisplayImage(redChannelCanvas);
+                break;
+            case "green":
+                this.setDisplayImage(greenChannelCanvas);
+                break;
+            case "blue":
+                this.setDisplayImage(blueChannelCanvas);
+                break;
+            case "alpha":
+                this.setDisplayImage(alphaChannelCanvas);
+                break;
+            default:
+                this.setDisplayImage(resultChannelCanvas);
+                break;
+        }
     }
 }
 customElements.define("image-packer", ImagePacker);
