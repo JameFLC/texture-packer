@@ -186,7 +186,7 @@ button:focus,
   position: absolute;
   top: 0;
   width: 100%;
-  opacity: 0.25;
+  opacity: 0.75;
   transition: opacity var(--transition-duration) var(--transition-function);
 }
 

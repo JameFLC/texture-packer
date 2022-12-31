@@ -283,7 +283,7 @@ class ImagePacker extends HTMLElement {
     setDisplayImage(canvas) {
         var _a;
         const displayImage = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("display-image");
-        displayImage.src = canvas.toDataURL("image/png");
+        displayImage.src = canvas.toDataURL(`image/${this._outputFormat}`, 1.0);
         this.setupDownloadButton();
     }
     setupDownloadButton() {
@@ -304,7 +304,7 @@ class ImagePacker extends HTMLElement {
             return;
         const link = document.createElement("a"); //create 'a' element
         const downloadedImage = new Image();
-        downloadedImage.src = resultCanvas.toDataURL(`imgage/${this._outputFormat}`);
+        downloadedImage.src = resultCanvas.toDataURL(`image/${this._outputFormat}`, 1.0);
         link.setAttribute("href", downloadedImage.src); //replace "file" with link to file you want to download
         link.setAttribute("download", `img.${this._outputFormat}`); // replace "file" here too
         link.click(); //virtually click <a> element to initiate download

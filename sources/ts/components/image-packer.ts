@@ -392,7 +392,7 @@ class ImagePacker extends HTMLElement {
       "display-image"
     ) as HTMLImageElement;
 
-    displayImage.src = canvas.toDataURL("image/png");
+    displayImage.src = canvas.toDataURL(`image/${this._outputFormat}`, 1.0);
     this.setupDownloadButton();
   }
 
@@ -425,7 +425,8 @@ class ImagePacker extends HTMLElement {
 
     const downloadedImage = new Image();
     downloadedImage.src = resultCanvas.toDataURL(
-      `imgage/${this._outputFormat}`
+      `image/${this._outputFormat}`,
+      1.0
     );
 
     link.setAttribute("href", downloadedImage.src); //replace "file" with link to file you want to download
