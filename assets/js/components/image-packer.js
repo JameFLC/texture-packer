@@ -124,8 +124,8 @@ class ImagePacker extends HTMLElement {
                   <label for="rad-png" class="radio-label">PNG</label>
                   <input type="radio" class="radio-input" name="formats" id="rad-bmp">
                   <label for="rad-bmp" class="radio-label">BMP</label>
-                  <input type="radio" class="radio-input" name="formats" id="rad-jpg">
-                  <label for="rad-jpg" class="radio-label">JPG</label>
+                  <input type="radio" class="radio-input" name="formats" id="rad-jpeg">
+                  <label for="rad-jpeg" class="radio-label">JPEG</label>
               </div>
           </div>
           <canvas id="result-channel-canvas" class="hidden" height=32 width=32 style="outline: 1px solid #000000"></canvas>
@@ -190,7 +190,7 @@ class ImagePacker extends HTMLElement {
         var _a, _b, _c;
         const pngOutputSelector = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("rad-png");
         const bmpOutputSelector = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById("rad-bmp");
-        const jpgOutputSelector = (_c = this.shadowRoot) === null || _c === void 0 ? void 0 : _c.getElementById("rad-jpg");
+        const jpegOutputSelector = (_c = this.shadowRoot) === null || _c === void 0 ? void 0 : _c.getElementById("rad-jpeg");
         pngOutputSelector.addEventListener("change", (event) => {
             if (pngOutputSelector.checked == true) {
                 this._outputFormat = "png";
@@ -201,9 +201,9 @@ class ImagePacker extends HTMLElement {
                 this._outputFormat = "bmp";
             }
         });
-        jpgOutputSelector.addEventListener("change", (event) => {
-            if (jpgOutputSelector.checked == true) {
-                this._outputFormat = "jpg";
+        jpegOutputSelector.addEventListener("change", (event) => {
+            if (jpegOutputSelector.checked == true) {
+                this._outputFormat = "jpeg";
             }
         });
     }
@@ -296,14 +296,16 @@ class ImagePacker extends HTMLElement {
     }
     downloadImage() {
         var _a, _b;
-        const resultImage = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("display-image");
-        if (resultImage == null)
+        const resultCanvas = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.getElementById("result-channel-canvas");
+        if (resultCanvas == null)
             return;
         const btnDownload = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.getElementById("btn-download");
         if (btnDownload == null || btnDownload.disabled == true)
             return;
         const link = document.createElement("a"); //create 'a' element
-        link.setAttribute("href", resultImage.src); //replace "file" with link to file you want to download
+        const downloadedImage = new Image();
+        downloadedImage.src = resultCanvas.toDataURL(`imgage/${this._outputFormat}`);
+        link.setAttribute("href", downloadedImage.src); //replace "file" with link to file you want to download
         link.setAttribute("download", `img.${this._outputFormat}`); // replace "file" here too
         link.click(); //virtually click <a> element to initiate download
         link.remove();

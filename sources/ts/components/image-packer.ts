@@ -98,8 +98,8 @@ class ImagePacker extends HTMLElement {
                   <label for="rad-png" class="radio-label">PNG</label>
                   <input type="radio" class="radio-input" name="formats" id="rad-bmp">
                   <label for="rad-bmp" class="radio-label">BMP</label>
-                  <input type="radio" class="radio-input" name="formats" id="rad-jpg">
-                  <label for="rad-jpg" class="radio-label">JPG</label>
+                  <input type="radio" class="radio-input" name="formats" id="rad-jpeg">
+                  <label for="rad-jpeg" class="radio-label">JPEG</label>
               </div>
           </div>
           <canvas id="result-channel-canvas" class="hidden" height=32 width=32 style="outline: 1px solid #000000"></canvas>
@@ -185,8 +185,8 @@ class ImagePacker extends HTMLElement {
       "rad-bmp"
     ) as HTMLInputElement;
 
-    const jpgOutputSelector = this.shadowRoot?.getElementById(
-      "rad-jpg"
+    const jpegOutputSelector = this.shadowRoot?.getElementById(
+      "rad-jpeg"
     ) as HTMLInputElement;
     pngOutputSelector.addEventListener("change", (event) => {
       if (pngOutputSelector.checked == true) {
@@ -200,9 +200,9 @@ class ImagePacker extends HTMLElement {
       }
     });
 
-    jpgOutputSelector.addEventListener("change", (event) => {
-      if (jpgOutputSelector.checked == true) {
-        this._outputFormat = "jpg";
+    jpegOutputSelector.addEventListener("change", (event) => {
+      if (jpegOutputSelector.checked == true) {
+        this._outputFormat = "jpeg";
       }
     });
   }
@@ -410,10 +410,10 @@ class ImagePacker extends HTMLElement {
   }
 
   downloadImage() {
-    const resultImage = this.shadowRoot?.getElementById(
-      "display-image"
-    ) as HTMLImageElement;
-    if (resultImage == null) return;
+    const resultCanvas = this.shadowRoot?.getElementById(
+      "result-channel-canvas"
+    ) as HTMLCanvasElement;
+    if (resultCanvas == null) return;
 
     const btnDownload = this.shadowRoot?.getElementById(
       "btn-download"
@@ -422,7 +422,13 @@ class ImagePacker extends HTMLElement {
     if (btnDownload == null || btnDownload.disabled == true) return;
 
     const link = document.createElement("a"); //create 'a' element
-    link.setAttribute("href", resultImage.src); //replace "file" with link to file you want to download
+
+    const downloadedImage = new Image();
+    downloadedImage.src = resultCanvas.toDataURL(
+      `imgage/${this._outputFormat}`
+    );
+
+    link.setAttribute("href", downloadedImage.src); //replace "file" with link to file you want to download
     link.setAttribute("download", `img.${this._outputFormat}`); // replace "file" here too
     link.click(); //virtually click <a> element to initiate download
     link.remove();
