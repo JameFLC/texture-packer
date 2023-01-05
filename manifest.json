@@ -9,7 +9,7 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "./assets/images/logo-corner.png",
+      "src": "./assets/images/logo-rounded.png",
       "sizes": "512x512"
     }
   ]
