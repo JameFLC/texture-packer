@@ -120,6 +120,10 @@ section {
   gap: var(--size-normal);
 }
 
+.section-element {
+  margin: var(--size-small);
+}
+
 .image-input-box,
 .image-display-box {
   display: block;
