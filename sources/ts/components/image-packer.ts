@@ -3,6 +3,7 @@ class ImagePacker extends HTMLElement {
 
   private _hasBeenPacked: boolean = false;
   private _displayMode: string = "color";
+  private _isAlphaOveriden: boolean = false;
   // Red Channel Image
   private _redImage = new Image();
   private _outputFormat = "png";
@@ -42,6 +43,7 @@ class ImagePacker extends HTMLElement {
   public set alphaImage(value) {
     this._alphaImage = value;
     console.log("Recieved alpha Image ", this._blueImage);
+    this._isAlphaOveriden = true;
   }
 
   constructor() {
@@ -329,7 +331,7 @@ class ImagePacker extends HTMLElement {
       resultData[i + 0] = red;
       resultData[i + 1] = green;
       resultData[i + 2] = blue;
-      resultData[i + 3] = alpha;
+      resultData[i + 3] = this._isAlphaOveriden ? alpha : 255; // Set alpha to one if not set to make the image visibleu
     }
 
     if (resultcanvasContext == null || resultImage == null) return;
