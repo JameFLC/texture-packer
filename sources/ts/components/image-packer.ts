@@ -88,8 +88,8 @@ class ImagePacker extends HTMLElement {
                   <label for="rad-green" class="radio-label">G</label>
                   <input type="radio" class="radio-input" name="channels" id="rad-blue">
                   <label for="rad-blue" class="radio-label">B</label>
-                  <input type="radio" class="radio-input" name="channels" id="rad-alpha">
-                  <label for="rad-alpha" class="radio-label">A</label>
+                  <!-- <input type="radio" class="radio-input" name="channels" id="rad-alpha" class="hidden">
+                  <label for="rad-alpha" class="radio-label" class="hidden">A</label> -->
               </div>
           </div>
           <div style="display: flex; whidth: 100%; margin-top : 1em;margin-bottom : 1em">

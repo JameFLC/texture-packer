@@ -116,7 +116,11 @@ section {
 
 .input-gridd {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "r g"
+    "b b";
   gap: var(--size-normal);
 }
 
@@ -274,6 +278,10 @@ button:disabled {
   padding-left: var(--size-small);
   padding-right: var(--size-small);
   text-align: center;
+}
+.blue-input {
+  grid-area: b;
+  margin: 0 25%;
 }
 
 .no-transitions,
