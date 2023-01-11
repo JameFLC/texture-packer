@@ -43,7 +43,7 @@
     const redInput = document.getElementById("red-input");
     const greenInput = document.getElementById("green-input");
     const blueInput = document.getElementById("blue-input");
-    const alphaInput = document.getElementById("alpha-input");
+    //const alphaInput = document.getElementById("alpha-input");
 
     // Image Packer
     const imagePacker = document.getElementById("image-packer");
@@ -63,10 +63,10 @@
         imagePacker.blueImage = loadedImage;
     })
 
-    alphaInput.addEventListener("image-loaded", (event) => {
-        const loadedImage = event.detail.image;
-        imagePacker.alphaImage = loadedImage;
-    })
+    //alphaInput.addEventListener("image-loaded", (event) => {
+    //const loadedImage = event.detail.image;
+    //    imagePacker.alphaImage = loadedImage;
+    //})
 </script>
 
 <script>
